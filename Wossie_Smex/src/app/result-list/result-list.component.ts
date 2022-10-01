@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {ResultComponent} from '../result/result.component'
+import { ResultComponent } from '../result/result.component';
 
 @Component({
   selector: 'app-result-list',
   templateUrl: './result-list.component.html',
-  styleUrls: ['./result-list.component.css']
+  styleUrls: ['./result-list.component.scss']
 })
 export class ResultListComponent implements OnInit {
-  Results: ResultComponent[] ;
+  Results: ResultComponent[];
 
-  constructor() { 
-    this.Results= [new ResultComponent("Something"),new ResultComponent("Else")];
+  constructor() {
+    this.Results=[new ResultComponent("It works"), new ResultComponent("This works too!")];
   }
 
   ngOnInit(): void {
   }
 
 }
-

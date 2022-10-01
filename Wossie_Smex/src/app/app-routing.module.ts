@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ResultListComponent} from './result-list/result-list.component' ;
 import { RouterModule, Routes } from '@angular/router';
-
+import {ResultListComponent} from './result-list/result-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'results' },
-  { path: 'results', component: ResultListComponent },
-  //{ path: 'about', component: AboutComponent }
+  {
+    path : '',
+    component: ResultListComponent
+  }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
