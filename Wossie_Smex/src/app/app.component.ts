@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+//<router-outlet>
+//</router-outlet>
 
 @Component({
   selector: 'app-root',
