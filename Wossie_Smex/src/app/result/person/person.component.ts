@@ -10,16 +10,29 @@ enum Gender {
   styleUrls: ['./person.component.css']
 })
 export class PersonComponent implements OnInit {
+  toJSON() : string {
+    let obj={
+      Name:this.Name,
+      livingPlace:this.livingPlace,
+      Gender:this.Gender==Gender.Male?'m':'f',
+    };
+    return JSON.stringify(obj);
+  }
+  fromJSON(json:string){
+
+  }
   Name:string;
   Gender:Gender;
   livingPlace:string="";
-  ngOnInit(): void {
-  }
-
-  constructor() {
+  ngOnInit(): void { }
+  //@Inject("json") json:String ="";
+  constructor(json? :String | null) {
     this.Name="Max Mustermann"; 
     this.Gender=Gender.Male;
     this.livingPlace="";
+    //if (json != undefined && json != null) {
+    //  this.fromJSON(json);
+    //}
   }
 
 

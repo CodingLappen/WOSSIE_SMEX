@@ -1,12 +1,25 @@
 <!-- <p>result-list works!</p> -->
-
-<ul>
-<div *ngFor="let result of Results">
-	<li>
-		{{result.Identifier}}
-	</li>
+<div class="mat-app-background basic-container">
+<mat-nav-list>
+	<div *ngFor="let result of Results">
+		<mat-list-item [routerLink]="['result',result.Identifier]" >
+	<mat-icon matListIcon> info </mat-icon> 
+			<span class="demo-2">{{ result.Identifier}} </span>
+	</mat-list-item>
+	</div>
+</mat-nav-list> 
+<!--
+		<div mat-line> {{result.Identifier}}</div> 
+<p-timeline layout="horizontal" [value]="Results">
+	<ng-template pTemplate="content" let-result>
+		<p> {{result.Identifier}} </p>
+		<button type="Button"> Show!</button>
+		<ng-template pTemplate="Persons" let-person> 
+		</ng-template> 
+	</ng-template>
+</p-timeline>
+-->
 </div>
 
-</ul>
 
 

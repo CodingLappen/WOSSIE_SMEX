@@ -1,0 +1,77 @@
+<div class="container"> 
+	<form (ngSubmit)="OnClick()" >
+<!--	<div class="form-group"> <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name" #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Name is required
+        </div>
+</div> -->
+      <div class="form-group">
+				<label for="search">Suche </label>
+				<input type="text" class="form-control" id="search"
+               [(ngModel)]="model.search" name="search">
+      </div>
+      <div class="form-group">
+				<label for="word">Schlagworte </label>
+				<input type="text" class="form-control" id="word"
+               [(ngModel)]="model.word" name="word">
+      </div>
+      <div class="form-group">
+				<label for="place">Orte </label>
+				<input type="text" class="form-control" id="place"
+               [(ngModel)]="model.place" name="place">
+      </div>
+      <div class="form-group">
+				<label for="person">Personen </label>
+				<input type="text" class="form-control" id="person"
+               [(ngModel)]="model.person" name="person">
+      </div>
+      <div class="form-group">
+				<label for="gender">Geschlecht </label>
+				<input type="text" class="form-control" id="gender"
+               [(ngModel)]="model.gender" name="gender">
+      </div>
+      <div class="form-group">
+				<label for="yearMin">Von </label>
+				<input type="number" class="form-control" id="yearMin"
+               [(ngModel)]="model.yearMin" name="yearMin">
+      </div>
+      <div class="form-group">
+				<label for="yearMax">Bis </label>
+				<input type="number" class="form-control" id="yearMax"
+               [(ngModel)]="model.yearMax" name="yearMax">
+      </div>
+      <div class="form-group">
+				<label for="limit">Eintr&auml;ge </label>
+				<input type="number" class="form-control" id="limit"
+               [(ngModel)]="model.limit" name="limit">
+      </div>
+      <div class="form-group">
+				<label for="incl">Ohne Jahreseintrag </label>
+				<input type="checkbox" class="form-control" id="incl"
+               [(ngModel)]="model.inclNoYear" name="incl">
+      </div>
+<!--      <div class="form-group">
+        <label for="power">Hero Power</label>
+        <select class="form-control" id="power"
+                required
+                [(ngModel)]="model.power" name="power"
+                #power="ngModel">
+          <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
+        </select>
+        <div [hidden]="power.valid || power.pristine" class="alert alert-danger">
+          Power is required
+        </div>
+			</div> -->
+      &nbsp;&nbsp;
+      <button type="button" class="btn btn-default" (click)="OnClick()">Absenden</button>
+     <!-- NOT SHOWN IN DOCS -->
+      <div>
+        <hr>
+	Name via form.controls = {{showFormControls(model)}}
+      </div>
+     <!-- - -->
+    </form>
+
+</div>
