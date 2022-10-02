@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ResultComponent } from '../result/result.component';
-import { MatListModule } from '@angular/material/list'
+import { Component, OnInit,Inject } from '@angular/core';
+import { Result } from '../result/result.component';
+import { MatListModule } from '@angular/material/list';
+import {FormListService} from '../form-list.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-result-list',
@@ -8,22 +10,29 @@ import { MatListModule } from '@angular/material/list'
   styleUrls: ['./result-list.component.scss']
 })
 export class ResultListComponent implements OnInit {
-  Results: ResultComponent[]=[
-    new ResultComponent(),
-    new ResultComponent(),
-    new ResultComponent(),
-    new ResultComponent(),
-    new ResultComponent(),
+  s : Subscription|null=null;
+  list:String ="[]";
+  Results: Result[]=[
   ];
+  Update(list:string):void{
+	  let obj= (JSON.parse(list) as {[key: string]: any}) ;
+	  let i:number;
+	  this.Results=[];
+	  let map = new Map();
+	  for (let key of Object.keys(obj)) {
+		  let result=new Result(obj[key].toString(),obj);
+		  result.Identifier = key.toString();
+		  this.Results.push(result);
+	  }
+  }
 
   ngOnInit(): void {
+	  this.s=this.Service.currentMessage.subscribe(message => {this.list=message;this.Update(message);})
   }
-  constructor() {
-    this.Results[0].Identifier="Nr.1";
-    this.Results[1].Identifier="Nr.2";
-    this.Results[2].Identifier="Nr.3";
-    this.Results[3].Identifier="Nr.4";
-    this.Results[4].Identifier="Nr.5";
+  ngOnDestroy():void {
+  	if (this.s!=null) this.s.unsubscribe;
+  }
+  constructor(private Service:FormListService) {
   }
 
 

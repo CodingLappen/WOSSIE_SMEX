@@ -1,1 +1,233 @@
-<p>result works! {{Identifier}}</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="referrer" content="origin" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Raleway"
+    />
+    <link rel="icon" href="data:," />
+    <title>Wossibel2Go</title>
+    <style>
+      .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+      }
+
+      /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+      .active,
+      .collapsible:hover {
+        background-color: #ccc;
+      }
+
+      /* Style the collapsible content. Note: hidden by default */
+      .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body class="w3-light-grey">
+    <!-- w3-content defines a container for fixed size centered content, 
+    and is wrapped around the whole page content, except for the footer in this example -->
+    <div class="w3-content" style="max-width: 1400px">
+      <!-- Header -->
+      <header class="w3-container w3-center w3-padding-32">
+        <h1><b>Wossibel2Go</b></h1>
+      </header>
+
+      <!-- Grid -->
+      <div class="w3-row">
+        <!-- Blog entries -->
+        <div class="w3-col l12 s12">
+          <!-- Blog entry -->
+          <div class="w3-card-4 w3-margin w3-white">
+            <div class="w3-container">
+              <h3><b>Hexen reiten in der Johannisnacht auf Siebrand</b></h3>
+              <h5>
+                Herr Wittfoot (Kahlenberg) Heiligen Damm,
+                <span class="w3-opacity">03.09.1925</span>
+              </h5>
+            </div>
+
+            <div class="w3-container">
+              <p>
+                Johannignacht hebben dee räden, dee mit sabenrand, hexen künnt
+              </p>
+            </div>
+            <button type="button" class="collapsible">Tonaufnahme</button>
+            <div w3-col m8 s12 class="content">
+              <p>
+                Durch eine Tonaufnahme liefern Sie wertvolle Daten für künftige
+                sprachwissenschaftliche und volkskundliche Arbeit. Werden Sie
+                vielleicht selbst Teil des Wossidlo-Archivs und sprechen Sie die
+                oben angezeigte Geschichte ein.
+              </p>
+              <p>
+                <button
+                  class="w3-button w3-padding-large w3-white w3-border"
+                  id="startRecord"
+                  onclick="startRecording()"
+                >
+                  <b>Aufnahme starten</b>
+                </button>
+                <button
+                  class="w3-button w3-padding-large w3-white w3-border"
+                  id="stopRecord"
+                  onclick="stopRecording()"
+                  style="display: none"
+                >
+                  <b>Aufnahme beenden</b>
+                </button>
+              </p>
+                <form method="POST">
+                  <audio controls controlslist="nodownload" id="audio"></audio>
+                </form>
+              <p>
+                <!-- Nach Senden der Aufnahme sollte der Nutzer eine Bestätigung bekommen z.B. alert("Vielen Dank für ihren Beitrag")-->
+                <button id="submit" disabled="true" value="audio" onclick="ajax()">
+                  Aufnahme senden
+                </button>
+              </p>
+            </div>
+          </div>
+          <hr />
+
+          <!-- END BLOG ENTRIES -->
+        </div>
+
+        <!-- END GRID -->
+      </div>
+      <br />
+
+      <!-- END w3-content -->
+    </div>
+
+    <!-- Aufnahmefunktion -->
+    <script>
+      function startRecording() {
+        //TODO: Zugriff auf das Mikrofon muss nur einmalig gewährt werden. Aktuell wird die entsprechende 
+        //Funktion navigator.mediaDevices.getUserMedia() jedoch bei JEDER neuen Aufnahme aufgerufen, was zu einer Fehlermeldung führt.
+        //entsprechende Überprüfung einbauen, die dies verhindert.  
+    
+        toggleRecord();
+        const stopButton = document.getElementById("stopRecord");
+
+        const handleSuccess = function (stream) {
+          const options = { mimeType: "audio/webm" };
+          const recordedChunks = [];
+          const mediaRecorder = new MediaRecorder(stream, options);
+
+          mediaRecorder.addEventListener("dataavailable", function (e) {
+            if (e.data.size > 0) recordedChunks.push(e.data);
+          });
+
+          mediaRecorder.addEventListener("stop", function () {
+            const blob = new Blob(recordedChunks);
+            const url = URL.createObjectURL(blob);
+
+            const audio = document.getElementById("audio");
+            audio.src = url;
+
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function () {
+              var base64data = reader.result;
+              console.log(base64data)
+            };
+          });
+
+          stopButton.addEventListener("click", function () {
+            mediaRecorder.stop();
+          });
+
+          mediaRecorder.start();
+        };
+
+        navigator.mediaDevices
+          .getUserMedia({ audio: true, video: false })
+          .then(handleSuccess);
+      }
+
+      function stopRecording() {
+        toggleRecord();
+        const submit = document.getElementById("submit")
+        submit.disabled = false
+      }
+
+      //Wechselt Button zwischen "Aufnahme starten" und "Aufnahme beenden"
+      function toggleRecord() {
+        var x = document.getElementById("startRecord");
+        var y = document.getElementById("stopRecord");
+
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          y.style.display = "none";
+        } else {
+          x.style.display = "none";
+          y.style.display = "block";
+        }
+      }
+
+      function ajax() {
+        $.ajax({
+          url: "https://digibibapp14.uni-rostock.de/wopqueries/audio/upload",
+          type: "post",
+ 	  dataType: 'json',
+          data: {
+            storyId: 290000002,
+            langCode: 'nds',
+            audioData: 'hier koomt der base64 string rein'
+          },
+          success: function(response) {
+            console.log("SUCCESS");
+            console.log(response);
+          },
+          error: function(xhr) {
+            console.log("ERROR");
+            console.log(xhr)
+          },
+          complete: function(xhr) {
+            console.log("COMPLETE")
+          },
+
+        });
+      }
+
+    </script>
+
+    <!-- Script für ausklappbare Box "Tonaufnahme" -->
+    <script>  
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

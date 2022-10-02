@@ -6,13 +6,13 @@ import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
   {
-    path : '',
+    path : 'list',
     component: ResultListComponent
   },{
     path : 'result/:Identifier',
     component : ResultComponent
   },{
-    path : 'home',
+    path : '',
     component : HomeComponent,
   }
 ];

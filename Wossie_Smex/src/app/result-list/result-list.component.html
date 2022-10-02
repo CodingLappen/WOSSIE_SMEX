@@ -2,9 +2,9 @@
 <div class="mat-app-background basic-container">
 <mat-nav-list>
 	<div *ngFor="let result of Results">
-		<mat-list-item [routerLink]="['result',result.Identifier]" >
+		<mat-list-item [routerLink]="['../result',result.Identifier]" >
 	<mat-icon matListIcon> info </mat-icon> 
-			<span class="demo-2">{{ result.Identifier}} </span>
+	<span class="demo-2">{{result.titleFunc()}} </span>
 	</mat-list-item>
 	</div>
 </mat-nav-list> 
