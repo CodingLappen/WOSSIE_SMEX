@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
   model : QueryModel ;
   xml : string = "";
   s:Subscription|null = null;
+  showCollapse: boolean=false;
+  showCollapse_toggle(){this.showCollapse=!this.showCollapse;}
   constructor(private router: Router,private http:HttpClient,private data:FormListService){
 	  this.model=new QueryModel();
 	  this.model.limit="50";
@@ -36,14 +38,14 @@ export class HomeComponent implements OnInit {
 	  let s:string="http://localhost:4200/api/isebel/index/"+q.search+"?"
 	  s+="inclNoYear="+q.inclNoYear+"&";
 	  s+="data=true&";
-	  if (q.search!="")s+="search="+q.search+"&";
-	  if (q.word!="")s+="word="+q.word+"&";
-	  if (q.place!="")s+="place="+q.place+"&";
-	  if (q.person!="")s+="person="+q.person+"&";
-	  if (q.gender!="")s+="gender="+q.gender+"&";
-	  if (q.yearMin!="")s+="yearMin="+q.yearMin+"&";
-	  if (q.yearMax!="")s+="yearMax="+q.yearMax+"&";
-	  if (q.limit!="")s+="limit="+q.limit+"&";
+	  if (q.search!="" && q.search!="null")s+="search="+q.search+"&";
+	  if (q.word!="" && q.word!="null")s+="word="+q.word+"&";
+	  if (q.place!="" && q.place!="null")s+="place="+q.place+"&";
+	  if (q.person!="" && q.person!="null")s+="person="+q.person+"&";
+	  if (q.gender!="" && q.gender!="null")s+="gender="+q.gender+"&";
+	  if (q.yearMin!="" && q.yearMin!="null")s+="yearMin="+q.yearMin+"&";
+	  if (q.yearMax!=""&& q.yearMax!="null")s+="yearMax="+q.yearMax+"&";
+	  if (q.limit!=""&&q.limit!="null")s+="limit="+q.limit+"&";
 	  return s;
   }
   OnClick(): void {

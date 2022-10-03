@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="icon" href="data:,">
+    <title>Wossibel2Go</title>
+    <style>
+      .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+      }
+
+      /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+      .active,
+      .collapsible:hover {
+        background-color: #ccc;
+      }
+
+      /* Style the collapsible content. Note: hidden by default */
+      .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+
+  <body class="w3-light-grey">
+    <div class="w3-content" style="max-width: 1400px">
+      <!-- Header -->
+      <header class="w3-container w3-center w3-padding-32">
+        <h1><b>Wossibel2Go</b></h1>
+        <a>
+          Willkommen auf der Seite des Wossibel2Go-Projektes. Unser Ziel ist es,
+          die mecklenburgische Sagenwelt auf Grundlage des Wossidlo-Archivs
+          navigierbar zu machen. Die Seite befindet sich derzeit im Aufbau, aber
+          schauen Sie sich gerne schon einmal um!
+        </a>
+      </header>
+
+      <div class="w3-row">
+        <div class="w3-col l12 s12">
+          <div class="w3-container w3-card-4 w3-margin w3-white">
+            <div class="w3-container">
+              <div></div>
+              <p>
+                <label for="search">Suche </label>
+                <input type="text" class="w3-input" id="search" [(ngmodel)]="model.search" name="search">
+              </p>
+              <button type="button" class="collapsible">
+                Erweiterte Suche
+              </button>
+              <div class="content">
+                <p>
+                  <label for="word">Schlagworte </label>
+                  <input type="text" class="w3-input" id="word" [(ngmodel)]="model.word" name="word">
+                </p>
+                <p>
+                  <label for="place">Orte </label>
+                  <input type="text" class="w3-input" id="place" [(ngmodel)]="model.place" name="place">
+                </p>
+                <p>
+                  <label for="person">Personen </label>
+                  <input type="text" class="w3-input" id="person" [(ngmodel)]="model.person" name="person">
+                </p>
+                <p>
+                  <label for="gender">Geschlecht </label>
+                  <input type="text" class="w3-input" id="gender" [(ngmodel)]="model.gender" name="gender">
+                </p>
+                <div class="w3-row">
+                  <div class="w3-col l5 s5 w3-margin-right">
+                    <label for="yearMin">Von </label>
+                    <input type="number" class="w3-input" id="yearMin" [(ngmodel)]="model.yearMin" name="yearMin">
+                  </div>
+                  <div class="w3-col l5 s5">
+                    <label for="yearMax">Bis </label>
+                    <input type="number" class="w3-input" id="yearMax" [(ngmodel)]="model.yearMax" name="yearMax">
+                  </div>
+                </div>
+
+                <p>
+                  <label for="incl">Ohne Jahreseintrag </label>
+                  <input type="checkbox" class="" id="incl" [(ngmodel)]="model.inclNoYear" name="incl">
+                </p>
+              </div>
+              <p>
+                <button type="button" class="w3-button w3-padding-large w3-white w3-border" id="searchbutton" onclick="search()">
+                  Suchen
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-row w3-container w3-card-4 w3-margin w3-white" id="preview">//</div>
+    </div>
+
+    <!-- Script für ausklappbare Box "Tonaufnahme" -->
+    <script>
+      function search() {
+        const begriff = document.getElementById("search");
+        const searchTerm = begriff.value;
+
+        if (searchTerm != "") {
+          $.ajax({
+            url:
+              "https://digibibapp14.uni-rostock.de/wopqueries/isebel/index/" +
+              searchTerm,
+            type: "get",
+            data: {
+              data: true,
+            },
+            dataType: "json",
+            success: function (response) {
+              let preview = document.getElementById("preview");
+
+              //div anlegen und mit informationen füllen!!
+              //<h3> title+place
+              //<p> text
+              //console.log(json);
+              for (var key in response) {
+                let div = document.createElement("div");
+                let h3 = document.createElement("h3");
+                let p = document.createElement("p");
+                let a = document.createElement("a")
+
+                const result = response[key];
+                a.innerHTML = result.title;
+                a.href = "https://www.wossidia.de/wossibel2go/"
+                h3.appendChild(a);
+
+                p.innerHTML = result.text.substring(1, 100);
+
+                div.appendChild(h3);
+                div.appendChild(p);
+
+                preview.appendChild(div)
+
+
+              }
+            },
+            error: function (xhr) {
+              console.log(xhr);
+            },
+          });
+        }
+      }
+    </script>
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+    </script>
+  
+
+</body></html>

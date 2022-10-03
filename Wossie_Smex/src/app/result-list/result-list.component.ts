@@ -20,7 +20,7 @@ export class ResultListComponent implements OnInit {
 	  this.Results=[];
 	  let map = new Map();
 	  for (let key of Object.keys(obj)) {
-		  let result=new Result(obj[key].toString(),obj);
+		  let result=new Result(obj[key].toString(),obj[key]);
 		  result.Identifier = key.toString();
 		  this.Results.push(result);
 	  }

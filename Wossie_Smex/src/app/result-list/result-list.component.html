@@ -1,24 +1,22 @@
 <!-- <p>result-list works!</p> -->
 <div class="mat-app-background basic-container">
+	<mat-sidenav-container class="example-container" >
+	<mat-sidenav mode="side" openend>Sidenav content </mat-sidenav>
+	<mat-sidenav-content>
+
 <mat-nav-list>
 	<div *ngFor="let result of Results">
-		<mat-list-item [routerLink]="['../result',result.Identifier]" >
+	<mat-list-item [routerLink]="['../result',result.Identifier]" >
 	<mat-icon matListIcon> info </mat-icon> 
-	<span class="demo-2">{{result.titleFunc()}} </span>
+		<h3 mat-line>
+		<a> {{ result.title }} </a> </h3>
+		<p mat-line>{{result.text.substring(0,100)}} </p>
+
 	</mat-list-item>
 	</div>
 </mat-nav-list> 
-<!--
-		<div mat-line> {{result.Identifier}}</div> 
-<p-timeline layout="horizontal" [value]="Results">
-	<ng-template pTemplate="content" let-result>
-		<p> {{result.Identifier}} </p>
-		<button type="Button"> Show!</button>
-		<ng-template pTemplate="Persons" let-person> 
-		</ng-template> 
-	</ng-template>
-</p-timeline>
--->
+</mat-sidenav-content>
+</mat-sidenav-container>
 </div>
 
 
